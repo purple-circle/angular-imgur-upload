@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <title>Angular Imgur Upload Demo</title>
+    <script src="angular.js"></script>
+    <script src="../dist/angular-imgur-upload.js"></script>
+    <script type="text/javascript">
+    var demo = angular.module("demo", ['imgurUpload']);
+    demo.controller("demo", function($scope, $timeout, imgurUpload) {
+
+      $scope.uploadProgress = 0;
+      $scope.upload = function(element) {
+        var success = function(result) {
+          $scope.sending = false;
+          $scope.result = result;
+        };
+
+        var error = function(err) {
+          $scope.sending = false;
+          $scope.error = err;
+        };
+
+        var notify = function(progress) {
+          $timeout(function() {
+            $scope.progress = progress;
+          });
+        };
+
+        $scope.sending = true;
+        $scope.error = false;
+
+        var image = element.files[0];
+
+        var clientId = "3631cecbf2bf2cf";
+        imgurUpload.setClientId(clientId);
+        imgurUpload
+          .upload(image)
+          //.upload(image, {clientId: clientId})
+          .then(success, error, notify);
+      };
+    });
+
+    </script>
+  </head>
+  <body>
+    <div ng-app="demo" ng-controller="demo">
+
+      <input type="file" onchange="angular.element(this).scope().upload(this)" accept="image/*" />
+
+      <hr>
+
+      Sending: {{sending}}<br />
+      Progress: {{progress}}<br />
+
+      <hr>
+      Result:
+      <div ng-if="!sending && result">
+        <img ng-src="{{result.data.link}}">
+        <pre>{{result | json:2}}</pre>
+      </div>
+
+      <hr>
+      Possible errors: {{error}}
+
+    </div>
+  </body>
+</html>
