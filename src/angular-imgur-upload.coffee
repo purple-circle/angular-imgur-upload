@@ -17,9 +17,10 @@ app.service 'imgurUpload', ($q) ->
       deferred.reject('No file')
       return deferred.promise
 
-    if not options.canvas and not file?.type?.match(/image.*/)
-      deferred.reject('File not image')
-      return deferred.promise
+    if not options.canvas
+      if file?.type?.match(/image.*/)
+        deferred.reject('File not image')
+        return deferred.promise
 
     xhr = new XMLHttpRequest()
     xhr.open 'POST', 'https://api.imgur.com/3/image.json'

@@ -25,9 +25,11 @@
           deferred.reject('No file');
           return deferred.promise;
         }
-        if (!options.canvas && !(file != null ? (ref = file.type) != null ? ref.match(/image.*/) : void 0 : void 0)) {
-          deferred.reject('File not image');
-          return deferred.promise;
+        if (!options.canvas) {
+          if (file != null ? (ref = file.type) != null ? ref.match(/image.*/) : void 0 : void 0) {
+            deferred.reject('File not image');
+            return deferred.promise;
+          }
         }
         xhr = new XMLHttpRequest();
         xhr.open('POST', 'https://api.imgur.com/3/image.json');
