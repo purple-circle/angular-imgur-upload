@@ -18,7 +18,7 @@ app.service 'imgurUpload', ($q) ->
       return deferred.promise
 
     if not options.canvas
-      if file?.type?.match(/image.*/)
+      if not file?.type?.match(/image.*/)
         deferred.reject('File not image')
         return deferred.promise
 

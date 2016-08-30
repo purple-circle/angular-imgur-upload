@@ -26,7 +26,7 @@
           return deferred.promise;
         }
         if (!options.canvas) {
-          if (file != null ? (ref = file.type) != null ? ref.match(/image.*/) : void 0 : void 0) {
+          if (!(file != null ? (ref = file.type) != null ? ref.match(/image.*/) : void 0 : void 0)) {
             deferred.reject('File not image');
             return deferred.promise;
           }
